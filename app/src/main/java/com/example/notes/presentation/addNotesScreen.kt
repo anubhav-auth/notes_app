@@ -19,12 +19,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.util.TableInfo
+import com.example.notes.presentation.destinations.addNotesScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
+@Destination
 @Composable
 fun addNotesScreen(
     state: noteState,
-    onEvent: (notesEvent) -> Unit
+    onEvent: (notesEvent) -> Unit,
+    destinationsNavigator: DestinationsNavigator
 ){
     Scaffold(
         floatingActionButton = {
@@ -36,6 +40,7 @@ fun addNotesScreen(
                             body = state.body.value
                         )
                     )
+                    destinationsNavigator.navigateUp()
                 }
             ) {
                 Icon(

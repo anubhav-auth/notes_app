@@ -1,6 +1,7 @@
 package com.example.notes.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Sort
+import androidx.compose.material.icons.rounded.Source
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,14 +32,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.notes.presentation.destinations.addNotesScreenDestination
 import com.example.notes.ui.theme.Pink80
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun notesScreen(
-    state: noteState
-    , onEvent: (notesEvent) -> Unit
+    destinationsNavigator : DestinationsNavigator,
+    state: noteState,
+    onEvent: (notesEvent) -> Unit
+
 ) {
-    Scaffold(topBar = {
+    Scaffold(
+        modifier = Modifier.padding(top = 12.dp), topBar = {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,12 +65,16 @@ fun notesScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-            IconButton(onClick = { onEvent(notesEvent.sortNotes) }) {
+            IconButton(onClick = {
+                onEvent(
+                    notesEvent.sortNotes
+                )
+            }) {
                 Icon(
-                    imageVector = Icons.Rounded.Sort,
+                    imageVector = Icons.Rounded.Source,
                     contentDescription = null,
                     modifier = Modifier.size(15.dp),
-                    tint = Pink80
+                    tint = Color.Black
                 )
             }
         }
@@ -67,6 +84,9 @@ fun notesScreen(
             FloatingActionButton(containerColor = Pink80, onClick = {
                 state.title.value = ""
                 state.body.value = ""
+                destinationsNavigator.navigate(
+                    addNotesScreenDestination()
+                )
             }) {
                 Icon(imageVector = Icons.Rounded.Add, contentDescription = "add note")
             }
@@ -117,7 +137,11 @@ fun NoteItem(state: noteState, index: Int, onEvent: (notesEvent) -> Unit) {
         Icon(
             imageVector = Icons.Rounded.Delete,
             contentDescription = "delete note",
-            modifier = Modifier.size(35.dp)
+            modifier = Modifier.size(35.dp).clickable {
+                onEvent(
+                    notesEvent.deleteNote(state.notes.get(index))
+                )
+            }
         )
 
     }
