@@ -71,9 +71,9 @@ fun notesScreen(
                 )
             }) {
                 Icon(
-                    imageVector = Icons.Rounded.Source,
+                    imageVector = Icons.Rounded.Sort,
                     contentDescription = null,
-                    modifier = Modifier.size(15.dp),
+                    modifier = Modifier.size(21.dp),
                     tint = Color.Black
                 )
             }
