@@ -76,7 +76,6 @@ class MainActivity : ComponentActivity() {
                        addNotesScreen(state = state, onEvent = viewModel::onEvent , destinationsNavigator = destinationsNavigator)
                     }
                 }
-//                notesScreen(state = state, onEvent = viewModel::onEvent, destinationsNavigator = null)
 
 
             }
